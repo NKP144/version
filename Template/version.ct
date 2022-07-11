@@ -4,8 +4,8 @@
 #define _CONFIG_STR_ "Debug"
 #else 
 #define _CONFIG_STR_ "Release"
-##endif
-#
+#endif
+
 uint8_t* version = "-.-" CONFIG_STR;
 uint8_t* built_date = "__DATE__";
 uint8_t* built_time = "__TIME__";
