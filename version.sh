@@ -1,4 +1,7 @@
 #bin/bash
+
+BUILD_CONFIG=$1
+
 VER=$(git describe --tag --dirty)
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
@@ -46,7 +49,6 @@ cat $SCRIPT_DIR/Template/version.ht >> $SCRIPT_DIR/Inc/version.h
 # \ ------> Version major number (1 byte).
 
 #Check git tag
-
 MAJOR=$(echo $VER | awk -F "." '{print $1}');
 MINOR=$(echo $VER | awk -F "." '{print $2}' | awk -F "-" '{print $1}')
 PATCH_OR_DIRTY=$(echo $VER | awk -F "-" '{print $2}')
@@ -61,11 +63,34 @@ else
 	DIRTY=$(echo $VER | awk -F "-" '{print $4}')
 fi
 
-echo $VER
+#Generate binary tag for metadata
 
+if [ -f "$SCRIPT_DIR/meta_version.bin" ]; then
+	   rm $SCRIPT_DIR/meta_version.bin
+fi	   
+
+if [ "$DIRTY" = "dirty" ]; then
+
+echo -n d | cat >> $SCRIPT_DIR/meta_version.bin		
+
+else if [ "$BUILD_CONFIG" = "DEBUG" ]; then
+		 echo -n D | cat >> $SCRIPT_DIR/meta_version.bin
+ 	 else
+		 echo -n R | cat >> $SCRIPT_DIR/meta_version.bin	
+	 fi
+fi
+
+printf "0: %.2x" $PATCH | xxd -r -g0 >> $SCRIPT_DIR/meta_version.bin
+printf "0: %.2x" $MINOR | xxd -r -g0 >> $SCRIPT_DIR/meta_version.bin
+printf "0: %.2x" $MAJOR | xxd -r -g0 >> $SCRIPT_DIR/meta_version.bin
+
+
+
+echo $VER
 echo Major $MAJOR
 echo Minor $MINOR
 echo Patch $PATCH
 echo Hash $HASH
 echo $DIRTY
 
+xxd meta_version.bin
