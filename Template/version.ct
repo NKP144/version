@@ -1,0 +1,5 @@
+#include "version.h"
+
+uint8_t* version = "-.-";
+uint8_t* built_date = "__DATE__";
+uint8_t* built_time = "__TIME__";
