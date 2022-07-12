@@ -18,7 +18,7 @@ fi
 
 mkdir $SCRIPT_DIR/Inc
 
-sed -e "9s/= .*/= (char*)\"$VER \" _CONFIG_STR_;/g" $SCRIPT_DIR/Template/version.ct >> $SCRIPT_DIR/Src/version.c
+sed -e "9s/= .*/= (uint8_t*)\"$VER \" _CONFIG_STR_;/g" $SCRIPT_DIR/Template/version.ct >> $SCRIPT_DIR/Src/version.c
 
 cat $SCRIPT_DIR/Template/version.ht >> $SCRIPT_DIR/Inc/version.h
 

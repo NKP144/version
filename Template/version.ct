@@ -6,6 +6,6 @@
 #define _CONFIG_STR_ "Release"
 #endif
 
-uint8_t* version = (char*) "-.-" _CONFIG_STR_;
-uint8_t* built_date = (char*) __DATE__;
-uint8_t* built_time = (char*) __TIME__;
+uint8_t* version = (uint8_t*) "-.-" _CONFIG_STR_;
+uint8_t* built_date = (uint8_t*) __DATE__;
+uint8_t* built_time = (uint8_t*) __TIME__;
